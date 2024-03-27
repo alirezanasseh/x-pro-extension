@@ -15,7 +15,8 @@
       "js": [
         "popup/popup.js",
         "scripts/tags.js"
-      ]
+      ],
+      "css": ["styles.css"]
     }
   ],
   "permissions": [

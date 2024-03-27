@@ -1,16 +1,19 @@
-let tagsVisible = false;
+import { CreateTagElement } from './create-tag-element';
 
 export function showTags() {
-  if (tagsVisible) {
-    return;
-  }
   const userNameEl = document.querySelector('[data-testid="UserName"]');
   if (userNameEl) {
-    const tagsEl = document.createElement("h1");
-    tagsEl.innerText = "TAGS";
-    tagsEl.style.color = "yellow";
-    userNameEl.after(tagsEl);
-    tagsVisible = true;
+    // check if the element with class 'tag' already exists
+    const tags = document.querySelector('.tag');
+    if (tags) {
+      return;
+    }
+    // add tags container
+    const tagsContainer = document.createElement('div');
+    tagsContainer.className = 'tags-container';
+    userNameEl.after(tagsContainer);
+    const tagsEl = CreateTagElement('Tag 1');
+    tagsContainer.appendChild(tagsEl);
   }
 }
 

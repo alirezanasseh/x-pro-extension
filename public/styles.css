@@ -1,0 +1,15 @@
+.tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: start;
+    margin-bottom: 10px;
+}
+
+.tag {
+    background-color: #f1f1f1;
+    border-radius: 5px;
+    padding: 5px;
+    color: #333;
+    font-family: Arial, sans-serif;
+    border: 1px solid #777;
+}
