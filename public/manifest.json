@@ -11,12 +11,19 @@
   },
   "content_scripts": [
     {
-      "matches": ["https://twitter.com/*", "https://www.twitter.com/*", "https://x.com/*", "https://www.x.com/*"],
+      "matches": [
+        "https://twitter.com/*",
+        "https://www.twitter.com/*",
+        "https://x.com/*",
+        "https://www.x.com/*"
+      ],
       "js": [
         "popup/popup.js",
-        "scripts/tags.js"
+        "scripts/content.js"
       ],
-      "css": ["styles.css"]
+      "css": [
+        "styles.css"
+      ]
     }
   ],
   "permissions": [
@@ -26,7 +33,13 @@
     "cookies",
     "scripting"
   ],
-  "host_permissions": ["http://localhost:8000/*"],
+  "host_permissions": [
+    "http://localhost:8000/*",
+    "https://twitter.com/*",
+    "https://www.twitter.com/*",
+    "https://x.com/*",
+    "https://www.x.com/*"
+  ],
   "action": {
     "default_popup": "popup/popup.html"
   },

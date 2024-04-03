@@ -5,7 +5,7 @@ import { GetUsername } from "./get-username";
 import { GetToken } from "./get-token";
 
 async function sendTagToServer(tag: string) {
-  const cookie = await GetToken();
+  const token = await GetToken();
   const url = `${env.BACKEND_URL}/tags/add`;
   const username = GetUsername();
   if (!username) {
@@ -19,7 +19,7 @@ async function sendTagToServer(tag: string) {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${cookie}`,
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(data),
   };

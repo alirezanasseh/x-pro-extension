@@ -1,12 +1,23 @@
-import { AuthCheck } from "../scripts/fuctions/auth-check";
+import { AuthCheck } from "../scripts/functions/auth-check";
 import { env } from "../env";
+import { ShowTags } from "../scripts/functions/show-tags";
 
 // Listen for messages from the background script
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
-  if (message.action === "reloadPopup") {
-    // Reload the popup window
-    location.reload();
-  }
+  console.log("message: ", message);
+  // switch (message.action) {
+  //   case "showTags":
+  //     console.log("showTags");
+  //     ShowTags();
+  //     break;
+  //   case "reloadPopup":
+  //     // Reload the popup window
+  //     location.reload();
+  //     break;
+  //   default:
+  //     break;
+  // }
+  return true;
 });
 
 document.addEventListener("DOMContentLoaded", async function () {

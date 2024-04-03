@@ -6,7 +6,7 @@ module.exports = {
   entry: {
     popup: "./src/popup/popup.ts",
     background: "./src/background.ts",
-    tags: "./src/scripts/tags.ts",
+    content: "./src/scripts/content.ts",
   },
   output: {
     path: path.resolve(__dirname, "../dist"),
@@ -16,8 +16,8 @@ module.exports = {
           return "popup/popup.js";
         case "background":
           return "background.js";
-        case "tags":
-          return "scripts/tags.js";
+        case "content":
+          return "scripts/content.js";
         default:
           return "[name].js";
       }
