@@ -13,7 +13,6 @@ export async function GetTags() {
       Authorization: `Bearer ${token}`,
     },
   };
-  console.log({ url, options });
   const response = await fetch(url, options);
   if (!response.ok) {
     throw new Error("Error getting tags");

@@ -5,28 +5,32 @@ import { Tag } from "../ui/tag";
 import { AddTag } from "../ui/add-tag";
 import { newTag } from "./new-tag";
 
+let url = "";
+
 export function ShowTags() {
   const userNameEl = document.querySelector('[data-testid="UserName"]');
-  console.log(userNameEl);
   if (userNameEl) {
-    // check if the add button already exists
-    const tagElements = document.querySelector(".add-tag");
-    if (tagElements) {
+    // check if the page is not changed then return
+    if (url === window.location.href) {
       return;
     }
-    // add tags container
-    const tagsContainer = TagContainer();
+    url = window.location.href;
+    let tagsContainer = document.querySelector(".tags-container");
+    // remove tags container if exists
+    if (tagsContainer) {
+      tagsContainer.remove();
+    }
+    tagsContainer = TagContainer();
     userNameEl.after(tagsContainer);
     // Get the tags from the server and show them
-    // GetTags()
-    //   .then((tags: ITag[]) => {
-    //     console.log(tags);
-    //     tags.forEach((tag) => {
-    //       tagsContainer.appendChild(Tag(tag));
-    //     });
-    //     // Add a button to add a new tag
-    //     tagsContainer.appendChild(AddTag(newTag));
-    //   })
-    //   .catch((error) => console.error(error));
+    GetTags()
+      .then((tags: ITag[]) => {
+        tags.forEach((tag) => {
+          tagsContainer.appendChild(Tag(tag));
+        });
+        // Add a button to add a new tag
+        tagsContainer.appendChild(AddTag(newTag));
+      })
+      .catch((error) => console.error(error));
   }
 }

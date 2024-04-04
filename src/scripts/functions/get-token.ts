@@ -1,12 +1,9 @@
-export async function GetToken(): Promise<string> {
-  return new Promise((resolve, reject) => {
-    if (typeof chrome === "undefined" || !chrome.storage) {
-      reject("Chrome object or chrome.storage is not available");
-      return;
-    }
+import { GetCookie } from "./get-cookie";
 
-    chrome.storage.sync.get("token", function (data) {
-      resolve(data.token);
-    });
-  });
+export async function GetToken(): Promise<string> {
+  if (typeof chrome === "undefined" || !chrome.storage) {
+    throw new Error("Chrome object or chrome.storage is not available");
+  }
+  const data = await chrome.storage.sync.get("token");
+  return data?.token || ((await GetCookie()) as string);
 }

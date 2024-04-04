@@ -1,22 +1,15 @@
 import { AuthCheck } from "../scripts/functions/auth-check";
 import { env } from "../env";
+import { ClearTags } from "../scripts/functions/clear-tags";
 import { ShowTags } from "../scripts/functions/show-tags";
 
 // Listen for messages from the background script
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
-  console.log("message: ", message);
-  // switch (message.action) {
-  //   case "showTags":
-  //     console.log("showTags");
-  //     ShowTags();
-  //     break;
-  //   case "reloadPopup":
-  //     // Reload the popup window
-  //     location.reload();
-  //     break;
-  //   default:
-  //     break;
-  // }
+  if (message.action === "reloadPopup") {
+    // Reload the popup window
+    location.reload();
+    ShowTags();
+  }
   return true;
 });
 
@@ -41,8 +34,11 @@ document.addEventListener("DOMContentLoaded", async function () {
         { url: env.BACKEND_URL, name: env.COOKIE_NAME },
         function (removedCookie) {
           if (removedCookie) {
-            // Show login state after logout
-            showLoginState();
+            // Remove token from chrome storage
+            chrome.storage.sync.remove("token", function () {
+              ClearTags();
+              showLoginState();
+            });
           }
         }
       );

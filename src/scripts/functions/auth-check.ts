@@ -1,5 +1,5 @@
-import { GetCookie } from "./get-cookie";
+import { GetToken } from "./get-token";
 
 export async function AuthCheck(): Promise<boolean> {
-  return !!(await GetCookie());
+  return !!(await GetToken());
 }
