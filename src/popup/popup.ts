@@ -3,7 +3,7 @@ import { ClearTags } from "../scripts/functions/clear-tags";
 import { ToggleLoginState } from "../scripts/functions/toggle-login-state";
 
 // Listen for messages from the background script
-chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
+chrome.runtime.onMessage.addListener(function (message) {
   if (message.action === "login") {
     ToggleLoginState().then();
   }
