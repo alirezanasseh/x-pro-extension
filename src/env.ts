@@ -1,4 +1,4 @@
 export const env = {
-  BACKEND_URL: "http://localhost:8000",
+  BACKEND_URL: "https://xpro-backend.techtulp.com",
   COOKIE_NAME: "xpro_token",
 };

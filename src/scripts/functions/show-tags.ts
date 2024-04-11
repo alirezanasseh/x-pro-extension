@@ -3,7 +3,7 @@ import { GetTags } from "./get-tags";
 import { ITag } from "../types/tag.type";
 import { Tag } from "../ui/tag";
 import { AddTag } from "../ui/add-tag";
-import { newTag } from "./new-tag";
+import { create } from "./new-tag";
 
 let url = "";
 
@@ -29,7 +29,7 @@ export function ShowTags() {
           tagsContainer.appendChild(Tag(tag));
         });
         // Add a button to add a new tag
-        tagsContainer.appendChild(AddTag(newTag));
+        tagsContainer.appendChild(AddTag(create));
       })
       .catch((error) => console.error(error));
   }

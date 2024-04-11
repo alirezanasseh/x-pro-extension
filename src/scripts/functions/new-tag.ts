@@ -1,4 +1,4 @@
-import { NewTag } from "../ui/new-tag";
+import { INewTag, NewTag } from "../ui/new-tag";
 import { Tag } from "../ui/tag";
 import { env } from "../../env";
 import { GetUsername } from "./get-username";
@@ -31,26 +31,31 @@ async function sendTagToServer(tag: string) {
   return addedTag.id as string;
 }
 
-export function newTag() {
+async function save(newTag: INewTag) {
+  try {
+    const addTag = document.querySelector(".add-tag");
+    const tagId = await sendTagToServer(newTag.inputEl.value);
+    const tag = Tag({
+      id: tagId,
+      name: newTag.inputEl.value,
+    });
+    newTag.newTagEl.before(tag);
+    newTag.newTagEl.remove();
+    (addTag as HTMLElement).hidden = false;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export function create() {
   const addTag = document.querySelector(".add-tag");
   if (addTag) {
-    const newTag = NewTag();
+    const newTag = NewTag(save);
     addTag.before(newTag.newTagEl);
     newTag.inputEl.focus();
     newTag.inputEl.addEventListener("keydown", async (event) => {
       if (event.key === "Enter") {
-        try {
-          const tagId = await sendTagToServer(newTag.inputEl.value);
-          const tag = Tag({
-            id: tagId,
-            name: newTag.inputEl.value,
-          });
-          newTag.newTagEl.before(tag);
-          newTag.newTagEl.remove();
-          (addTag as HTMLElement).hidden = false;
-        } catch (error) {
-          console.error(error);
-        }
+        await save(newTag);
       }
     });
     // hide add tag button

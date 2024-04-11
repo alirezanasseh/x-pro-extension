@@ -1,5 +1,9 @@
 import { GetToken } from "./get-token";
 
 export async function AuthCheck(): Promise<boolean> {
-  return !!(await GetToken());
+  try {
+    return !!(await GetToken());
+  } catch (error) {
+    return false;
+  }
 }
