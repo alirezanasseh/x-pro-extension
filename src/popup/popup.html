@@ -2,15 +2,34 @@
 <html lang="en">
 <head>
   <title>Extension Popup</title>
+  <link rel="stylesheet" href="./popup.css">
   <script src="./popup.js"></script>
 </head>
 <body>
-<div id="login">
-  <button id="loginButton">Log In with Twitter</button>
-</div>
-<div id="loggedIn" style="display: none;">
-  <p>User is logged in!</p>
-  <button id="logoutButton">Log Out</button>
-</div>
+  <div class="popup-container">
+    <div id="header"><img src="./images/header.png" alt="Header"/></div>
+    <div class="content" id="content" style="display: none;">Easily add tags to Twitter account to remember things about them and categorize them easier.</div>
+    <div id="login" style="display: none;">
+      <a id="loginLink" href="javascript:none">
+        <img src="./images/sign-in-with-twitter.png" alt="Sign in with Twitter" id="twitterButton"/>
+      </a>
+    </div>
+    <div id="loggedIn">
+      <div id="welcome">Welcome, <span id="username"></span>!</div>
+      <div class="buttons">
+        <button id="deleteAccount" class="button">Delete Account</button>
+        <button id="logoutButton" class="button">Log Out</button>
+      </div>
+    </div>
+    <hr class="footer-line">
+    <div id="footer">
+      <div>
+        <a href="https://xpro.techtulp.com/privacy-policy" target="_blank">Privacy Policy</a>
+      </div>
+      <div>
+          <a href="mailto:techtulpsolutions@gmail.com">Contact us</a>
+      </div>
+    </div>
+  </div>
 </body>
 </html>

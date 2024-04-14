@@ -1,7 +1,7 @@
 import { AuthCheck } from "./auth-check";
 
 export async function ToggleLoginState() {
-  const loginButton = document.getElementById("loginButton");
+  const loginSection = document.getElementById("login");
   const loggedInSection = document.getElementById("loggedIn");
 
   if (await AuthCheck()) {
@@ -11,16 +11,15 @@ export async function ToggleLoginState() {
   }
 
   function showLoginState() {
-    if (loginButton && loggedInSection) {
-      loginButton.style.display = "block";
+    if (loginSection && loggedInSection) {
+      loginSection.style.display = "block";
       loggedInSection.style.display = "none";
     }
   }
 
   function showLoggedInState() {
-    console.log("showLoggedInState", { loginButton, loggedInSection });
-    if (loginButton && loggedInSection) {
-      loginButton.style.display = "none";
+    if (loginSection && loggedInSection) {
+      loginSection.style.display = "none";
       loggedInSection.style.display = "block";
     }
   }

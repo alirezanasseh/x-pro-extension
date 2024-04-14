@@ -1,6 +1,7 @@
 import { env } from "../env";
 import { ClearTags } from "../scripts/functions/clear-tags";
 import { ToggleLoginState } from "../scripts/functions/toggle-login-state";
+import { DeleteAccount } from "../scripts/functions/delete-account";
 
 // Listen for messages from the background script
 chrome.runtime.onMessage.addListener(function (message) {
@@ -11,11 +12,12 @@ chrome.runtime.onMessage.addListener(function (message) {
 });
 
 document.addEventListener("DOMContentLoaded", async function () {
-  const loginButton = document.getElementById("loginButton");
+  const loginLink = document.getElementById("loginLink");
   const loggedInSection = document.getElementById("loggedIn");
   const logoutButton = document.getElementById("logoutButton");
-  if (loginButton && logoutButton && loggedInSection) {
-    loginButton.addEventListener("click", function () {
+  const deleteAccount = document.getElementById("deleteAccount");
+  if (loginLink && logoutButton && loggedInSection) {
+    loginLink.addEventListener("click", function () {
       chrome.windows.create({
         url: `${env.BACKEND_URL}/auth/twitter`,
         type: "popup",
@@ -38,6 +40,11 @@ document.addEventListener("DOMContentLoaded", async function () {
           }
         }
       );
+    });
+  }
+  if (deleteAccount) {
+    deleteAccount.addEventListener("click", async function () {
+      DeleteAccount().then();
     });
   }
   ToggleLoginState().then();
