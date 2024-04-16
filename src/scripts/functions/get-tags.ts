@@ -4,7 +4,6 @@ import { GetFromStorage } from "./get-from-storage";
 
 export async function GetTags() {
   const token = await GetFromStorage(env.COOKIE_TOKEN);
-  console.log("token", token);
   const username = GetUsername();
   const url = `${env.BACKEND_URL}/tags?onUsername=${username}`;
   const options = {

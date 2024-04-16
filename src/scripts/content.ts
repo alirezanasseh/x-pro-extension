@@ -14,10 +14,8 @@ export function ShowTags() {
     url = window.location.href;
   }
   if (tagsAreVisible) return;
-  console.log("ShowTags");
   const userNameEl = document.querySelector('[data-testid="UserName"]');
   if (userNameEl) {
-    console.log("ShowTags 2");
     tagsAreVisible = true;
     let tagsContainer = document.querySelector(".tags-container");
     // remove tags container if exists
@@ -29,7 +27,6 @@ export function ShowTags() {
     // Get the tags from the server and show them
     GetTags()
       .then((tags: ITag[]) => {
-        console.log("ShowTags 3");
         tags.forEach((tag) => {
           tagsContainer.appendChild(Tag(tag));
         });
