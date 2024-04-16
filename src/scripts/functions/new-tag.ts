@@ -2,10 +2,10 @@ import { INewTag, NewTag } from "../ui/new-tag";
 import { Tag } from "../ui/tag";
 import { env } from "../../env";
 import { GetUsername } from "./get-username";
-import { GetCookie } from "./get-cookie";
+import { GetFromStorage } from "./get-from-storage";
 
 async function sendTagToServer(tag: string) {
-  const token = await GetCookie("token");
+  const token = await GetFromStorage(env.COOKIE_TOKEN);
   const url = `${env.BACKEND_URL}/tags/add`;
   const username = GetUsername();
   if (!username) {

@@ -1,5 +1,6 @@
 import { AuthCheck } from "./auth-check";
-import { GetCookie } from "./get-cookie";
+import { GetFromStorage } from "./get-from-storage";
+import { env } from "../../env";
 
 export async function ToggleLoginState() {
   const loginSection = document.getElementById("login");
@@ -23,7 +24,7 @@ export async function ToggleLoginState() {
       loginSection.style.display = "none";
       loggedInSection.style.display = "flex";
       const displayNameElement = document.getElementById("displayName");
-      const displayName = await GetCookie("displayName");
+      const displayName = await GetFromStorage(env.COOKIE_DISPLAY_NAME);
       if (displayNameElement && displayName) {
         displayNameElement.innerText = displayName;
       }
