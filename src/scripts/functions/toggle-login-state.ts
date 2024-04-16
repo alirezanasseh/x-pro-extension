@@ -1,4 +1,5 @@
 import { AuthCheck } from "./auth-check";
+import { GetCookie } from "./get-cookie";
 
 export async function ToggleLoginState() {
   const loginSection = document.getElementById("login");
@@ -12,15 +13,20 @@ export async function ToggleLoginState() {
 
   function showLoginState() {
     if (loginSection && loggedInSection) {
-      loginSection.style.display = "block";
+      loginSection.style.display = "flex";
       loggedInSection.style.display = "none";
     }
   }
 
-  function showLoggedInState() {
+  async function showLoggedInState() {
     if (loginSection && loggedInSection) {
       loginSection.style.display = "none";
-      loggedInSection.style.display = "block";
+      loggedInSection.style.display = "flex";
+      const displayNameElement = document.getElementById("displayName");
+      const displayName = await GetCookie("displayName");
+      if (displayNameElement && displayName) {
+        displayNameElement.innerText = displayName;
+      }
     }
   }
 }

@@ -9,15 +9,19 @@ body {
     line-height: 150%;
 }
 
+.login-button {
+
+}
+
 .popup-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 160px;
+    height: 200px;
     width: 240px;
     margin: 10px auto;
-    padding: 40px 60px;
+    padding: 10px 30px 20px 30px;
 }
 
 #footer {
@@ -37,11 +41,20 @@ body {
     width: 100%;
 }
 
-#login, #loggedIn {
-    padding: 20px;
+#login {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    gap: 15px;
+    width: 100%;
+    align-items: center;
+}
+
+#loggedIn {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 15px;
     width: 100%;
     align-items: center;
 }

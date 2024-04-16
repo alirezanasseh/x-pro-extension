@@ -2,22 +2,30 @@ import { env } from "../env";
 import { ClearTags } from "../scripts/functions/clear-tags";
 import { ToggleLoginState } from "../scripts/functions/toggle-login-state";
 import { DeleteAccount } from "../scripts/functions/delete-account";
+import { SaveToStorage } from "../scripts/functions/save-to-storage";
+import { GetCookie } from "../scripts/functions/get-cookie";
 
 // Listen for messages from the background script
-chrome.runtime.onMessage.addListener(function (message) {
+chrome.runtime.onMessage.addListener(async function (message) {
   if (message.action === "login") {
+    const tokenName = env.COOKIE_TOKEN;
+    const displayNameName = env.COOKIE_DISPLAY_NAME;
+    const token = await GetCookie(tokenName);
+    const displayName = await GetCookie(displayNameName);
+    await SaveToStorage(tokenName, token);
+    await SaveToStorage(displayNameName, displayName);
     ToggleLoginState().then();
   }
   return true;
 });
 
 document.addEventListener("DOMContentLoaded", async function () {
-  const loginLink = document.getElementById("loginLink");
+  const twitterButton = document.getElementById("twitterButton");
   const loggedInSection = document.getElementById("loggedIn");
   const logoutButton = document.getElementById("logoutButton");
   const deleteAccount = document.getElementById("deleteAccount");
-  if (loginLink && logoutButton && loggedInSection) {
-    loginLink.addEventListener("click", function () {
+  if (twitterButton && logoutButton && loggedInSection) {
+    twitterButton.addEventListener("click", function () {
       chrome.windows.create({
         url: `${env.BACKEND_URL}/auth/twitter`,
         type: "popup",
@@ -26,20 +34,19 @@ document.addEventListener("DOMContentLoaded", async function () {
       });
     });
 
-    logoutButton.addEventListener("click", function () {
-      // Clear JWT cookie
-      chrome.cookies.remove(
-        { url: env.BACKEND_URL, name: env.COOKIE_NAME },
-        function (removedCookie) {
-          if (removedCookie) {
-            // Remove token from chrome storage
-            chrome.storage.sync.remove("token", function () {
-              ClearTags();
-              ToggleLoginState();
-            });
-          }
-        }
-      );
+    logoutButton.addEventListener("click", async function () {
+      await chrome.cookies.remove({
+        url: env.BACKEND_URL,
+        name: env.COOKIE_TOKEN,
+      });
+      await chrome.cookies.remove({
+        url: env.BACKEND_URL,
+        name: env.COOKIE_DISPLAY_NAME,
+      });
+      await chrome.storage.sync.remove("token");
+      await chrome.storage.sync.remove("displayName");
+      ClearTags();
+      ToggleLoginState().then();
     });
   }
   if (deleteAccount) {
