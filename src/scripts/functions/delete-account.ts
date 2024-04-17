@@ -1,7 +1,6 @@
 import { env } from "../../env";
 import { ClearTags } from "./clear-tags";
 import { ToggleLoginState } from "./toggle-login-state";
-import { GetCookie } from "./get-cookie";
 import { GetFromStorage } from "./get-from-storage";
 
 export async function DeleteAccount() {
