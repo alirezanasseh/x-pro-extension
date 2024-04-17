@@ -5,7 +5,7 @@ import { GetUsername } from "./get-username";
 import { GetFromStorage } from "./get-from-storage";
 
 async function sendTagToServer(tag: string) {
-  const token = await GetFromStorage(env.COOKIE_TOKEN);
+  const token = await GetFromStorage(env.TOKEN);
   const url = `${env.BACKEND_URL}/tags/add`;
   const username = GetUsername();
   if (!username) {

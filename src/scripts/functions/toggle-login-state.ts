@@ -24,7 +24,7 @@ export async function ToggleLoginState() {
       loginSection.style.display = "none";
       loggedInSection.style.display = "flex";
       const displayNameElement = document.getElementById("displayName");
-      const displayName = await GetFromStorage(env.COOKIE_DISPLAY_NAME);
+      const displayName = await GetFromStorage(env.DISPLAY_NAME);
       if (displayNameElement && displayName) {
         displayNameElement.innerText = displayName;
       }

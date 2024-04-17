@@ -8,8 +8,8 @@ import { GetCookie } from "../scripts/functions/get-cookie";
 // Listen for messages from the background script
 chrome.runtime.onMessage.addListener(async function (message) {
   if (message.action === "login") {
-    const tokenName = env.COOKIE_TOKEN;
-    const displayNameName = env.COOKIE_DISPLAY_NAME;
+    const tokenName = env.TOKEN;
+    const displayNameName = env.DISPLAY_NAME;
     const token = await GetCookie(tokenName);
     const displayName = await GetCookie(displayNameName);
     await SaveToStorage(tokenName, token);
@@ -37,14 +37,14 @@ document.addEventListener("DOMContentLoaded", async function () {
     logoutButton.addEventListener("click", async function () {
       await chrome.cookies.remove({
         url: env.BACKEND_URL,
-        name: env.COOKIE_TOKEN,
+        name: env.TOKEN,
       });
       await chrome.cookies.remove({
         url: env.BACKEND_URL,
-        name: env.COOKIE_DISPLAY_NAME,
+        name: env.DISPLAY_NAME,
       });
-      await chrome.storage.sync.remove("token");
-      await chrome.storage.sync.remove("displayName");
+      await chrome.storage.sync.remove(env.TOKEN);
+      await chrome.storage.sync.remove(env.DISPLAY_NAME);
       ClearTags();
       ToggleLoginState().then();
     });

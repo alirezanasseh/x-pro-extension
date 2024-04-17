@@ -3,7 +3,8 @@ import { GetUsername } from "./get-username";
 import { GetFromStorage } from "./get-from-storage";
 
 export async function GetTags() {
-  const token = await GetFromStorage(env.COOKIE_TOKEN);
+  const token = await GetFromStorage(env.TOKEN);
+  if (!token) return null;
   const username = GetUsername();
   const url = `${env.BACKEND_URL}/tags?onUsername=${username}`;
   const options = {
@@ -14,8 +15,6 @@ export async function GetTags() {
     },
   };
   const response = await fetch(url, options);
-  if (!response.ok) {
-    throw new Error("Error getting tags");
-  }
+  if (!response.ok) return null;
   return await response.json();
 }
