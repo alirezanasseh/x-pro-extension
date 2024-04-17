@@ -9,10 +9,6 @@ body {
     line-height: 150%;
 }
 
-.login-button {
-
-}
-
 .popup-container {
     display: flex;
     flex-direction: column;
@@ -60,7 +56,7 @@ body {
 }
 
 #welcome {
-margin-bottom: 20px;
+    margin: 10px auto;
 }
 
 .footer-line {
