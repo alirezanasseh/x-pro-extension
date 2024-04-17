@@ -27,6 +27,7 @@ export function ShowTags() {
     // Get the tags from the server and show them
     GetTags()
       .then((tags: ITag[]) => {
+        if (!tags) return;
         tags.forEach((tag) => {
           tagsContainer.appendChild(Tag(tag));
         });
