@@ -5,13 +5,21 @@ import { Tag } from "./ui/tag";
 import { AddTag } from "./ui/add-tag";
 import { create } from "./functions/new-tag";
 import { ClearTags } from "./functions/clear-tags";
+import { GetUsername } from "./functions/get-username";
 
 let lastUserNameEl: Element | null = null;
+let lastUserName: string | null = null;
 
 export function ShowTags(force: boolean = false) {
   const userNameEl = document.querySelector('[data-testid="UserName"]');
-  if (!userNameEl || (userNameEl === lastUserNameEl && !force)) return;
+  const userName = GetUsername();
+  if (
+    !userNameEl ||
+    (userNameEl === lastUserNameEl && userName === lastUserName && !force)
+  )
+    return;
   lastUserNameEl = userNameEl;
+  lastUserName = userName;
   if (userNameEl) {
     let tagsContainer = document.querySelector(".tags-container");
     // remove tags container if exists
