@@ -1,5 +1,4 @@
 import { env } from "../env";
-import { ClearTags } from "../scripts/functions/clear-tags";
 import { ToggleLoginState } from "../scripts/functions/toggle-login-state";
 import { DeleteAccount } from "../scripts/functions/delete-account";
 import { SaveToStorage } from "../scripts/functions/save-to-storage";
