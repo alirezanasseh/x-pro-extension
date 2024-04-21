@@ -4,19 +4,15 @@ import { ITag } from "./types/tag.type";
 import { Tag } from "./ui/tag";
 import { AddTag } from "./ui/add-tag";
 import { create } from "./functions/new-tag";
+import { ClearTags } from "./functions/clear-tags";
 
-let tagsAreVisible = false;
-let url = "";
+let lastUserNameEl: Element | null = null;
 
-export function ShowTags() {
-  if (url !== window.location.href) {
-    tagsAreVisible = false;
-    url = window.location.href;
-  }
-  if (tagsAreVisible) return;
+export function ShowTags(force: boolean = false) {
   const userNameEl = document.querySelector('[data-testid="UserName"]');
+  if (!userNameEl || (userNameEl === lastUserNameEl && !force)) return;
+  lastUserNameEl = userNameEl;
   if (userNameEl) {
-    tagsAreVisible = true;
     let tagsContainer = document.querySelector(".tags-container");
     // remove tags container if exists
     if (tagsContainer) {
@@ -39,13 +35,27 @@ export function ShowTags() {
 }
 
 chrome.runtime.onMessage.addListener((message) => {
-  if (message.action === "showTags") {
-    ShowTags();
+  switch (message.action) {
+    case "showTags":
+      ShowTags(true);
+      break;
+    case "clearTags":
+      ClearTags();
+      break;
+    default:
+      break;
   }
   return true;
 });
 
-const observer = new MutationObserver(ShowTags);
+const observer = new MutationObserver((mutationsList, observer) => {
+  for (let mutation of mutationsList) {
+    if (mutation.type === "childList") {
+      ShowTags();
+    }
+  }
+});
+
 observer.observe(document.body, {
   childList: true,
   subtree: true,

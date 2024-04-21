@@ -15,6 +15,13 @@ chrome.runtime.onMessage.addListener(async function (message) {
     await SaveToStorage(tokenName, token);
     await SaveToStorage(displayNameName, displayName);
     ToggleLoginState().then();
+
+    // Send a message to the content script to show tags
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      if (tabs[0] && tabs[0].id) {
+        chrome.tabs.sendMessage(tabs[0].id, { action: "showTags" });
+      }
+    });
   }
   return true;
 });
@@ -45,8 +52,12 @@ document.addEventListener("DOMContentLoaded", async function () {
       });
       await chrome.storage.sync.remove(env.TOKEN);
       await chrome.storage.sync.remove(env.DISPLAY_NAME);
-      ClearTags();
       ToggleLoginState().then();
+      chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+        if (tabs[0] && tabs[0].id) {
+          chrome.tabs.sendMessage(tabs[0].id, { action: "clearTags" });
+        }
+      });
     });
   }
   if (deleteAccount) {
