@@ -13,6 +13,7 @@ export function NewTag(clickFunc: (newTag: INewTag) => void): INewTag {
   buttonEl.id = "add-tag";
   buttonEl.innerText = "✔";
   buttonEl.className = "vazirmatn";
+  buttonEl.title = "Save";
   buttonEl.onclick = () => clickFunc({ newTagEl, inputEl });
   newTagEl.appendChild(inputEl);
   newTagEl.appendChild(buttonEl);

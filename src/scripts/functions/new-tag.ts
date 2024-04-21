@@ -5,6 +5,10 @@ import { GetUsername } from "./get-username";
 import { GetFromStorage } from "./get-from-storage";
 
 async function sendTagToServer(tag: string) {
+  tag = tag.trim();
+  if (!tag) {
+    return;
+  }
   const token = await GetFromStorage(env.TOKEN);
   const url = `${env.BACKEND_URL}/tags/add`;
   const username = GetUsername();
@@ -35,11 +39,13 @@ async function save(newTag: INewTag) {
   try {
     const addTag = document.querySelector(".add-tag");
     const tagId = await sendTagToServer(newTag.inputEl.value);
-    const tag = Tag({
-      id: tagId,
-      name: newTag.inputEl.value,
-    });
-    newTag.newTagEl.before(tag);
+    if (tagId) {
+      const tag = Tag({
+        id: tagId,
+        name: newTag.inputEl.value,
+      });
+      newTag.newTagEl.before(tag);
+    }
     newTag.newTagEl.remove();
     (addTag as HTMLElement).hidden = false;
   } catch (error) {

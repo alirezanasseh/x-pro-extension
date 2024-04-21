@@ -12,6 +12,7 @@ export function EditTagUI(params: {
   const { id, name, save, remove } = params;
 
   const tagEl = document.createElement("div");
+  tagEl.id = `edit-${id}`;
   tagEl.className = "new-tag";
 
   const inputEl = document.createElement("input");
@@ -26,15 +27,18 @@ export function EditTagUI(params: {
   btnSave.id = "edit-tag";
   btnSave.innerText = "✔";
   btnSave.className = "vazirmatn";
+  btnSave.title = "Save";
   btnSave.onclick = () => save(id, inputEl.value);
 
   const btnRemove = document.createElement("button");
   btnRemove.id = "remove-tag";
-  btnRemove.innerText = "❌";
+  btnRemove.innerText = "X";
   btnRemove.className = "vazirmatn";
+  btnRemove.title = "Remove tag";
   btnRemove.onclick = () => remove(id);
 
   tagEl.appendChild(inputEl);
   tagEl.appendChild(btnSave);
+  tagEl.appendChild(btnRemove);
   return { editTag: tagEl, editTagInput: inputEl };
 }
