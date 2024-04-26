@@ -1,3 +1,6 @@
+import { Div } from "./elements/div.element";
+import { AutoCompleteTag } from "../functions/auto-complete-tag";
+
 export interface IEditTag {
   editTag: HTMLDivElement;
   editTagInput: HTMLInputElement;
@@ -17,7 +20,8 @@ export function EditTagUI(params: {
 
   const inputEl = document.createElement("input");
   inputEl.value = name;
-  inputEl.className = "vazirmatn";
+  inputEl.className = "vazirmatn tag-input";
+  inputEl.onkeyup = AutoCompleteTag;
   inputEl.addEventListener("keydown", (event) => {
     if (event.key !== "Enter") return;
     save(id, inputEl.value);
@@ -37,7 +41,13 @@ export function EditTagUI(params: {
   btnRemove.title = "Remove tag";
   btnRemove.onclick = () => remove(id);
 
+  const autoCompleteListEl = Div({
+    className: "auto-complete-list",
+    id: "auto-complete-list",
+  });
+
   tagEl.appendChild(inputEl);
+  tagEl.appendChild(autoCompleteListEl);
   tagEl.appendChild(btnSave);
   tagEl.appendChild(btnRemove);
   return { editTag: tagEl, editTagInput: inputEl };
