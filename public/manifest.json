@@ -30,8 +30,7 @@
     "activeTab",
     "tabs",
     "storage",
-    "cookies",
-    "scripting"
+    "cookies"
   ],
   "host_permissions": [
     "https://xpro-backend.techtulp.com/*",
