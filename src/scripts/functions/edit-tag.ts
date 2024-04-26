@@ -40,6 +40,11 @@ function showAddTag() {
 export function EditTag(id: string) {
   const tagEl = document.getElementById(id);
   if (!tagEl) return;
+
+  // Hide new tag input
+  const newTagEl = document.getElementById("new-tag");
+  if (newTagEl) newTagEl.remove();
+
   const tagName = tagEl.innerText;
   const addTagEl = document.getElementById("add-tag");
   if (addTagEl) addTagEl.remove();
