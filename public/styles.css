@@ -1,5 +1,6 @@
 .vazirmatn {
     font-family: "Vazirmatn", Arial, sans-serif;
+    font-size: 14px;
     font-optical-sizing: auto;
     font-weight: normal;
     font-style: normal;
@@ -24,4 +25,36 @@
 .new-tag {
     display: flex;
     gap: 5px;
+}
+
+.tag-input {
+    width: 150px;
+    height: 28px;
+}
+
+.add-tag {
+    height: 34px;
+}
+
+.auto-complete-list {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    border: 1px solid #777;
+    z-index: 1;
+    max-height: 200px;
+    overflow-y: auto;
+    margin-top: 35px;
+    border-radius: 2px;
+    width: 156px;
+}
+
+.auto-complete-item {
+    padding: 5px;
+    cursor: pointer;
+    color: #333333;
+}
+
+.auto-complete-item:hover {
+    background-color: #ddd;
 }
