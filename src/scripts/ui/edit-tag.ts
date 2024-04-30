@@ -1,5 +1,7 @@
 import { Div } from "./elements/div.element";
 import { AutoCompleteTag } from "../functions/auto-complete-tag";
+import { Button } from "./elements/button.element";
+import { Input } from "./elements/input.element";
 
 export interface IEditTag {
   editTag: HTMLDivElement;
@@ -11,35 +13,48 @@ export function EditTagUI(params: {
   name: string;
   save: (id: string, name: string) => void;
   remove: (id: string) => void;
+  cancel: () => void;
 }): IEditTag {
-  const { id, name, save, remove } = params;
+  const { id, name, save, remove, cancel } = params;
 
-  const tagEl = document.createElement("div");
-  tagEl.id = `edit-${id}`;
-  tagEl.className = "new-tag";
-
-  const inputEl = document.createElement("input");
-  inputEl.value = name;
-  inputEl.className = "vazirmatn tag-input";
-  inputEl.onkeyup = AutoCompleteTag;
-  inputEl.addEventListener("keydown", (event) => {
-    if (event.key !== "Enter") return;
-    save(id, inputEl.value);
+  const tagEl = Div({
+    className: "new-tag",
+    id: `edit-${id}`,
   });
 
-  const btnSave = document.createElement("button");
-  btnSave.id = "edit-tag";
-  btnSave.innerText = "✔";
-  btnSave.className = "vazirmatn";
-  btnSave.title = "Save";
-  btnSave.onclick = () => save(id, inputEl.value);
+  const inputEl = Input({
+    value: name,
+    className: "vazirmatn tag-input",
+    onkeyup: AutoCompleteTag,
+    onkeydown: (event) => {
+      if (event.key !== "Enter") return;
+      save(id, inputEl.value);
+    },
+  });
 
-  const btnRemove = document.createElement("button");
-  btnRemove.id = "remove-tag";
-  btnRemove.innerText = "X";
-  btnRemove.className = "vazirmatn";
-  btnRemove.title = "Remove tag";
-  btnRemove.onclick = () => remove(id);
+  const btnSave = Button({
+    id: "edit-tag",
+    innerText: "✔",
+    className: "vazirmatn",
+    title: "Save",
+    onclick: () => save(id, inputEl.value),
+  });
+
+  const btnRemove = Button({
+    id: "remove-tag",
+    innerText: "🗑",
+    className: "vazirmatn",
+    title: "Remove tag",
+    onclick: () => remove(id),
+  });
+
+  const btnCancel = Button({
+    id: "cancel-edit-tag",
+    innerText: "🗙",
+    className: "vazirmatn",
+    title: "Cancel",
+    onclick: cancel,
+  });
 
   const autoCompleteListEl = Div({
     className: "auto-complete-list",
@@ -49,6 +64,8 @@ export function EditTagUI(params: {
   tagEl.appendChild(inputEl);
   tagEl.appendChild(autoCompleteListEl);
   tagEl.appendChild(btnSave);
+  tagEl.appendChild(btnCancel);
   tagEl.appendChild(btnRemove);
+
   return { editTag: tagEl, editTagInput: inputEl };
 }

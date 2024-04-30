@@ -1,8 +1,13 @@
-import { INewTag, NewTag } from "../ui/new-tag";
+import { NewTag } from "../ui/new-tag";
 import { Tag } from "../ui/tag";
 import { env } from "../../env";
 import { GetUsername } from "./get-username";
 import { GetFromStorage } from "./get-from-storage";
+
+function showAddTag() {
+  const addTagEl = document.getElementById("add-tag");
+  if (addTagEl) (addTagEl as HTMLElement).hidden = false;
+}
 
 async function sendTagToServer(tag: string) {
   tag = tag.trim();
@@ -35,36 +40,33 @@ async function sendTagToServer(tag: string) {
   return addedTag.id as string;
 }
 
-async function save(newTag: INewTag) {
-  try {
-    const addTag = document.querySelector(".add-tag");
-    const tagId = await sendTagToServer(newTag.inputEl.value);
-    if (tagId) {
-      const tag = Tag({
-        id: tagId,
-        name: newTag.inputEl.value,
-      });
-      newTag.newTagEl.before(tag);
-    }
-    newTag.newTagEl.remove();
-    (addTag as HTMLElement).hidden = false;
-  } catch (error) {
-    console.error(error);
-  }
-}
-
 export function create() {
   const addTag = document.querySelector(".add-tag");
   if (addTag) {
-    const newTag = NewTag(save);
-    addTag.before(newTag.newTagEl);
-    newTag.inputEl.focus();
-    newTag.inputEl.addEventListener("keydown", async (event) => {
-      if (event.key === "Enter") {
-        await save(newTag);
-      }
+    const { newTagEl, inputEl } = NewTag({
+      save: async (name) => {
+        try {
+          const tagId = await sendTagToServer(name);
+          if (tagId) {
+            const tag = Tag({
+              id: tagId,
+              name,
+            });
+            newTagEl.before(tag);
+          }
+          newTagEl.remove();
+          showAddTag();
+        } catch (error) {
+          console.error(error);
+        }
+      },
+      cancel: () => {
+        newTagEl.remove();
+        showAddTag();
+      },
     });
-    // hide add tag button
+    addTag.before(newTagEl);
+    inputEl.focus();
     (addTag as HTMLElement).hidden = true;
   }
 }

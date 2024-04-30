@@ -1,7 +1,5 @@
 import { env } from "../../env";
 import { EditTagUI } from "../ui/edit-tag";
-import { AddTag } from "../ui/add-tag";
-import { create } from "./new-tag";
 import { GetFromStorage } from "./get-from-storage";
 
 async function save(id: string, name: string) {
@@ -31,10 +29,8 @@ async function remove(id: string) {
 }
 
 function showAddTag() {
-  const tagsContainer = document.querySelector(".tags-container");
-  if (tagsContainer) {
-    tagsContainer.appendChild(AddTag(create));
-  }
+  const addTagEl = document.getElementById("add-tag");
+  if (addTagEl) (addTagEl as HTMLElement).hidden = false;
 }
 
 export function EditTag(id: string) {
@@ -47,7 +43,7 @@ export function EditTag(id: string) {
 
   const tagName = tagEl.innerText;
   const addTagEl = document.getElementById("add-tag");
-  if (addTagEl) addTagEl.remove();
+  if (addTagEl) (addTagEl as HTMLElement).hidden = true;
 
   const { editTag, editTagInput } = EditTagUI({
     id,
@@ -79,10 +75,21 @@ export function EditTag(id: string) {
       showAddTag();
     },
     remove: async (id) => {
+      if (!confirm("Are you sure you want to remove this tag?")) return;
       const response = await remove(id);
       if (!response) return;
       editTag.remove();
       tagEl.remove();
+      showAddTag();
+    },
+    cancel: () => {
+      const editTag = document.getElementById(`edit-${id}`);
+      if (!editTag) {
+        showAddTag();
+        return;
+      }
+      editTag.remove();
+      tagEl.style.display = "block";
       showAddTag();
     },
   });

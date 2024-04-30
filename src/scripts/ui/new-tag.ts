@@ -2,13 +2,14 @@ import { Div } from "./elements/div.element";
 import { Input } from "./elements/input.element";
 import { Button } from "./elements/button.element";
 import { AutoCompleteTag } from "../functions/auto-complete-tag";
+import { HideOnClickOutside } from "../functions/click-outside";
 
-export interface INewTag {
-  newTagEl: HTMLDivElement;
-  inputEl: HTMLInputElement;
-}
+export function NewTag(params: {
+  save: (name: string) => void;
+  cancel: () => void;
+}) {
+  const { save, cancel } = params;
 
-export function NewTag(clickFunc: (newTag: INewTag) => void): INewTag {
   const newTagEl = Div({
     className: "new-tag",
     id: "new-tag",
@@ -17,20 +18,38 @@ export function NewTag(clickFunc: (newTag: INewTag) => void): INewTag {
     className: "vazirmatn tag-input",
     placeholder: "New tag",
     onkeyup: AutoCompleteTag,
+    onkeydown: (event) => {
+      if (event.key !== "Enter") return;
+      save(inputEl.value);
+    },
   });
-  const buttonEl = Button({
+  const btnAdd = Button({
     id: "add-tag",
     innerText: "✔",
     className: "vazirmatn",
     title: "Save",
-    onclick: () => clickFunc({ newTagEl, inputEl }),
+    onclick: () => save(inputEl.value),
+  });
+  const btnCancel = Button({
+    id: "cancel-edit-tag",
+    innerText: "🗙",
+    className: "vazirmatn",
+    title: "Cancel",
+    onclick: cancel,
   });
   const autoCompleteListEl = Div({
     className: "auto-complete-list",
     id: "auto-complete-list",
   });
+  HideOnClickOutside(autoCompleteListEl);
+
   newTagEl.appendChild(inputEl);
-  newTagEl.appendChild(buttonEl);
+  newTagEl.appendChild(btnAdd);
+  newTagEl.appendChild(btnCancel);
   newTagEl.appendChild(autoCompleteListEl);
-  return { newTagEl, inputEl };
+
+  return {
+    newTagEl,
+    inputEl,
+  };
 }
